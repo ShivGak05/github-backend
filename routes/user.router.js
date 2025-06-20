@@ -1,0 +1,12 @@
+const express=require("express");
+const userRouter=express.Router();
+const userController=require("../controllers/userController.js");
+userRouter.get("/user/all",userController.getAllUsers);
+userRouter.post("/login",userController.login);
+userRouter.post("/signup",userController.signup);
+userRouter.put("/user/update/:id",userController.updateUserProfile);
+userRouter.delete("/user/delete/:id",userController.deleteUserProfile);
+userRouter.patch("/user/follow/:id/:userId",userController.handleFollow);
+userRouter.get("/user/:id/following", userController.followUser);
+userRouter.get("/user/:id",userController.getUserProfile);
+module.exports=userRouter;
