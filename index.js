@@ -55,15 +55,22 @@ function StartServer(){
     const MongoURL=process.env.MONGO_URL;
     console.log(MongoURL);
     mongoose.connect(MongoURL).then(()=>console.log("MongoDB connected")).catch((err)=>console.log(err));
-    app.use(cors({origin:"*"}));
+   app.use(cors({
+    origin: "https://main.d8o2b9f0dihlu.amplifyapp.com", 
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.options('*', cors());
     app.use("/",mainRouter);
     const httpServer=http.createServer(app);
-    const io=new Server(httpServer,{
-        cors:{
-            origin:"*",
-            methods:["GET","POST"],
-        },
-    });
+   const io = new Server(httpServer, {
+    cors: {
+        origin: "https://main.d8o2b9f0dihlu.amplifyapp.com",
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+});
     io.on("connection",(socket)=>{
         socket.on("joinRoom",(userId)=>{
             user=userId;
